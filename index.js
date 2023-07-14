@@ -22,11 +22,11 @@ class StockDomain extends MenuDomain {
         if (this.available == false)
             return false;
 
-        // if (!StockConfiguration.stockIsEnabled)
-        //     return true;
+        if (!StockConfiguration.stockIsEnabled)
+            return true;
 
-        // if (StockConfiguration.shouldPauseWhenStockIs && this.stockQuantity <= StockConfiguration.pauseStockAt)
-        //     return false;
+        if (StockConfiguration.shouldPauseWhenStockIs && this.stockQuantity <= StockConfiguration.pauseStockAt)
+            return false;
 
         return true;
     }
@@ -56,9 +56,9 @@ class Cardapnator {
     }
 
     build() {
-        // StockConfiguration.stockIsEnabled = this.cardapio.info.has_stock;
-        // StockConfiguration.shouldPauseWhenStockIs = this.cardapio.info.stock_configuration.enable_pause_item_option;
-        // StockConfiguration.pauseStockAt = this.cardapio.info.stock_configuration.pause_item_when_stock_is;
+        StockConfiguration.stockIsEnabled = this.cardapio.info.has_stock;
+        StockConfiguration.shouldPauseWhenStockIs = this.cardapio.info.stock_configuration.enable_pause_item_option;
+        StockConfiguration.pauseStockAt = this.cardapio.info.stock_configuration.pause_item_when_stock_is;
 
         this.final_cardapio.menu.general = this.cardapio.menu.general.map(c => new Category(c))
         this.final_cardapio.menu.extras = this.cardapio.menu.extras.map(e => new ExtraCategory(e));
