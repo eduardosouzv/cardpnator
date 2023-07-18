@@ -14,14 +14,10 @@ class Category extends MenuDomain {
 class StockDomain extends MenuDomain {
     constructor(domain) {
         super(domain);
-
-        this.available = this.isAvailable();
+        this.hasStock = this.checkHasStock();
     }
 
-    isAvailable() {
-        if (this.available == false)
-            return false;
-
+    checkHasStock() {
         if (!StockConfiguration.stockIsEnabled)
             return true;
 
@@ -47,7 +43,11 @@ class ExtraOption extends StockDomain {
 
 }
 
-var StockConfiguration = {};
+var StockConfiguration = {
+    stockIsEnabled: false,
+    shouldPauseWhenStockIs: false,
+    pauseStockAt: 0
+};
 
 class Cardapnator {
     constructor(cardapio) {
@@ -56,9 +56,13 @@ class Cardapnator {
     }
 
     build() {
-        StockConfiguration.stockIsEnabled = this.cardapio.info.has_stock;
-        StockConfiguration.shouldPauseWhenStockIs = this.cardapio.info.stock_configuration.enable_pause_item_option;
-        StockConfiguration.pauseStockAt = this.cardapio.info.stock_configuration.pause_item_when_stock_is;
+        try {
+            StockConfiguration.stockIsEnabled = this.cardapio.info.has_stock;
+            StockConfiguration.shouldPauseWhenStockIs = this.cardapio.info.stock_configuration.enable_pause_item_option;
+            StockConfiguration.pauseStockAt = this.cardapio.info.stock_configuration.pause_item_when_stock_is;
+        } catch (error) {
+            console.error('[Cardapnator] - Erro ao inicializar o stockConfiguration')
+        }
 
         this.final_cardapio.menu.general = this.cardapio.menu.general.map(c => new Category(c))
         this.final_cardapio.menu.extras = this.cardapio.menu.extras.map(e => new ExtraCategory(e));
