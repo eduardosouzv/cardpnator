@@ -1,6 +1,6 @@
 {
   "name": "cardapnator",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Montador de cardápio multipedidos",
   "main": "index.js",
   "scripts": {
