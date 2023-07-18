@@ -10,9 +10,13 @@ class Cardapnator {
     }
 
     build() {
-        globalThis.StockConfiguration.stockIsEnabled = this.cardapio.info.has_stock;
-        globalThis.StockConfiguration.shouldPauseWhenStockIs = this.cardapio.info.stock_configuration.enable_pause_item_option;
-        globalThis.StockConfiguration.pauseStockAt = this.cardapio.info.stock_configuration.pause_item_when_stock_is;
+        try {
+            globalThis.StockConfiguration.stockIsEnabled = this.cardapio.info.has_stock;
+            globalThis.StockConfiguration.shouldPauseWhenStockIs = this.cardapio.info.stock_configuration.enable_pause_item_option;
+            globalThis.StockConfiguration.pauseStockAt = this.cardapio.info.stock_configuration.pause_item_when_stock_is;
+        } catch (error) {
+            console.error('[Cardapnator] - Erro ao inicializar o stockConfiguration')
+        }
 
         this.final_cardapio.menu.general = this.cardapio.menu.general.map(c => new Category(c))
         this.final_cardapio.menu.extras = this.cardapio.menu.extras.map(e => new ExtraCategory(e));
