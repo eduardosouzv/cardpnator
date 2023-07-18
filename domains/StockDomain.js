@@ -3,18 +3,14 @@ const MenuDomain = require('./MenuDomain');
 class StockDomain extends MenuDomain {
     constructor(domain) {
         super(domain);
-
-        this.available = this.isAvailable();
+        this.hasStock = this.checkHasStock();
     }
 
-    isAvailable() {
-        if (!this.available)
-            return false;
-
-        if (!globalThis.StockConfiguration.stockIsEnabled)
+    checkHasStock() {
+        if (!StockConfiguration.stockIsEnabled)
             return true;
 
-        if (globalThis.StockConfiguration.shouldPauseWhenStockIs && this.stockQuantity <= globalThis.StockConfiguration.pauseStockAt)
+        if (StockConfiguration.shouldPauseWhenStockIs && this.stockQuantity <= StockConfiguration.pauseStockAt)
             return false;
 
         return true;

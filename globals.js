@@ -1,2 +1,6 @@
 globalThis.MenuTypeConfiguration = 'delivery';
-globalThis.StockConfiguration = {};
+globalThis.StockConfiguration = {
+    stockIsEnabled: false,
+    shouldPauseWhenStockIs: false,
+    pauseStockAt: 0
+};
